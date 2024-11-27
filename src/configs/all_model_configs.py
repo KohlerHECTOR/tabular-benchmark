@@ -3,6 +3,7 @@ sys.path.append("src")
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, \
     GradientBoostingClassifier, GradientBoostingRegressor, \
     HistGradientBoostingRegressor, HistGradientBoostingClassifier
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from xgboost import XGBClassifier, XGBRegressor
 from models.skorch_models import create_resnet_skorch, create_ft_transformer_skorch, create_rtdl_mlp_skorch
 from models.skorch_models_regression import create_resnet_regressor_skorch, create_ft_transformer_regressor_skorch, create_rtdl_mlp_regressor_skorch
@@ -14,18 +15,18 @@ total_config = {}
 model_keyword_dic = {}
 
 ## ADD YOU MODEL HERE ##
-# from configs.model_configs.your_file import config_classif, config_regression, config_classif_default, config_regression_default #replace template.py by your parameters
-# keyword = "your_model"
-# total_config[keyword] = {
-#         "classif": {"random": config_classif,
-#                     "default": config_classif_default},
-#         "regression": {"random": config_regression,
-#                             "default": config_regression_default},
-# }
-# #these constructor should create an object
-# # with fit and predict methods
-# model_keyword_dic[config_regression["model_name"]] = YourModelClassRegressor
-# model_keyword_dic[config_classif["model_name"]] = YourModelClassClassifier
+from configs.model_configs.cart_config import config_classif, config_regression, config_classif_default, config_regression_default #replace template.py by your parameters
+keyword = "cart"
+total_config[keyword] = {
+        "classif": {"random": config_classif,
+                    "default": config_classif_default},
+        "regression": {"random": config_regression,
+                            "default": config_regression_default},
+}
+#these constructor should create an object
+# with fit and predict methods
+model_keyword_dic[config_regression["model_name"]["value"]] = DecisionTreeRegressor
+model_keyword_dic[config_classif["model_name"]["value"]] = DecisionTreeClassifier
 #############################
 
 

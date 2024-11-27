@@ -1,1 +1,1 @@
-wandb_id = "leogrin" # Enter your ID
+wandb_id = "hecthebestbgdu9-inria" # Enter your ID
