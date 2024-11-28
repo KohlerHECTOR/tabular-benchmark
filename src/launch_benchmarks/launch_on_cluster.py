@@ -89,6 +89,7 @@ parser.add_argument('--oar_queue', type=str, default="default")
 # Parse the arguments
 args = parser.parse_args()
 
+args.oar = True
 if args.oar:
     print("Using OAR")
     if args.oar_queue == "default":
@@ -125,9 +126,7 @@ for i, row in df.iterrows():
         # TODO modify launch_agent_gpu.sh
         SLURM_COMMAND = "sbatch --export=wandb_id={},project={},sweep_id={} launch_benchmarks/launch_agent_gpu.sh"
     else:
-        OAR_COMMAND = """oarsub "wandb agent {}/{}/{}" 
-        -l walltime=00:23:30 -p "not cluster='graphite' 
-        AND not cluster='grimani' AND not cluster='gruss'" -q production"""
+        OAR_COMMAND = """oarsub "source /home/hkohler/public/tabular-benchmark/cool_env/bin/activate;wandb agent {}/{}/{}" -l walltime=00:01:30 -p "not cluster='graphite' AND not cluster='grimani' AND not cluster='gruss'" -q production"""
         # TODO modify launch_agent.sh
         SLURM_COMMAND = "sbatch --export=wandb_id={},project={},sweep_id={} launch_benchmarks/launch_agent.sh"
 
