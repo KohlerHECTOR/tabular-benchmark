@@ -141,7 +141,7 @@ def sklearn_evaluation_tree(fitted_model, x_train, x_val, x_test, y_train, y_val
 
     elif isinstance(fitted_model, STreeDClassifier) or isinstance(fitted_model, STreeDRegressor):
         y_hat_train = fitted_model.predict(x_train)
-        nodes, depth, expected_tests = 0, 0, 0
+        nodes, depth, expected_tests = fitted_model.get_n_leaves(), fitted_model.get_depth(), fitted_model.get_question_length(x_train, y_train)-1
 
     else:
         print("unrecognized tree alg")
