@@ -6,8 +6,14 @@ from sklearn.preprocessing import QuantileTransformer, OneHotEncoder
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+from dpdt import DPDTreeClassifier, DPDTreeRegressor
+from pystreed import STreeDClassifier, STreeDRegressor
 
-
+def count_expected_test_cart(clf, S):
+    node_indicator = clf.decision_path(S)
+    return node_indicator.sum(axis=1).mean() - 1
+    
 def skorch_evaluation(model, x_train, x_val, x_test, y_train, y_val, y_test, config, model_id, return_r2,
                       delete_checkpoint):
     """
@@ -121,6 +127,55 @@ def sklearn_evaluation(fitted_model, x_train, x_val, x_test, y_train, y_val, y_t
     return train_score, val_score, test_score
 
 
+
+def sklearn_evaluation_tree(fitted_model, x_train, x_val, x_test, y_train, y_val, y_test, config, return_r2):
+    """
+    Evaluate a fitted model from sklearn that is a tree
+    """
+    y_hat_train = fitted_model.predict(x_train)
+    if isinstance(fitted_model, DecisionTreeClassifier) or isinstance(fitted_model, DecisionTreeRegressor):
+        nodes, depth, expected_tests = fitted_model.tree_.max_depth, fitted_model.tree_.node_count, count_expected_test_cart(fitted_model, x_train)
+    
+    elif isinstance(fitted_model, DPDTreeClassifier) or isinstance(fitted_model, DPDTreeRegressor):
+        nodes, depth, expected_tests = 0, 0, 0
+
+    elif isinstance(fitted_model, STreeDClassifier) or isinstance(fitted_model, STreeDRegressor):
+        nodes, depth, expected_tests = 0, 0, 0
+
+    else:
+        print("unrecognized tree alg")
+        nodes, depth, expected_tests = 0, 0, 0
+
+    y_hat_val = fitted_model.predict(x_val)
+    y_hat_test = fitted_model.predict(x_test)
+
+    if "regression" in config.keys() and config["regression"]:
+        if return_r2:
+            train_score = r2_score(y_train.reshape(-1), y_hat_train.reshape(-1))
+        else:
+            train_score = np.sqrt(np.mean((y_hat_train.reshape(-1) - y_train.reshape(-1)) ** 2))
+    else:
+        train_score = np.sum((y_hat_train == y_train)) / len(y_train)
+
+    if "regression" in config.keys() and config["regression"]:
+        if return_r2:
+            val_score = r2_score(y_val.reshape(-1), y_hat_val.reshape(-1))
+        else:
+            val_score = np.sqrt(np.mean((y_hat_val.reshape(-1) - y_val.reshape(-1)) ** 2))
+    else:
+        val_score = np.sum((y_hat_val == y_val)) / len(y_val)
+
+    if "regression" in config.keys() and config["regression"]:
+        if return_r2:
+            test_score = r2_score(y_test.reshape(-1), y_hat_test.reshape(-1))
+        else:
+            test_score = np.sqrt(np.mean((y_hat_test.reshape(-1) - y_test.reshape(-1)) ** 2))
+    else:
+        test_score = np.sum((y_hat_test == y_test)) / len(y_test)
+
+    return train_score, val_score, test_score, nodes, depth, expected_tests
+
+
 def evaluate_model(fitted_model, x_train, y_train, x_val, y_val, x_test, y_test, config, model_id=None, return_r2=False,
                    delete_checkpoint=True):
     """
@@ -130,6 +185,11 @@ def evaluate_model(fitted_model, x_train, y_train, x_val, y_val, x_test, y_test,
     if config["model_type"] == "sklearn":
         train_score, val_score, test_score = sklearn_evaluation(fitted_model, x_train, x_val, x_test, y_train, y_val,
                                                                 y_test, config, return_r2=return_r2)
+    elif config["model_type"] == "sklearn-tree":
+        train_score, val_score, test_score, nodes, depth, expected_tests = sklearn_evaluation_tree(fitted_model, x_train, x_val, x_test, y_train, y_val,
+                                                                y_test, config, return_r2=return_r2) 
+        return train_score, val_score, test_score, nodes, depth, expected_tests
+
     elif config["model_type"] == "skorch":
         train_score, val_score, test_score = skorch_evaluation(fitted_model, x_train, x_val, x_test, y_train, y_val,
                                                                y_test, config, model_id, return_r2=return_r2,
@@ -148,7 +208,7 @@ def train_model(iter, x_train, y_train, categorical_indicator, config, id):
     print("Training")
     if config["model_type"] == "skorch":
         model_raw = create_model(config, categorical_indicator, id=id)  # TODO rng ??
-    elif config["model_type"] == "sklearn":
+    elif config["model_type"] == "sklearn" or config["model_type"] == "sklearn-tree":
         model_raw = create_model(config, categorical_indicator)
     elif config["model_type"] == "tab_survey":
         model_raw = create_model(config, categorical_indicator, num_features=x_train.shape[1], id=id,

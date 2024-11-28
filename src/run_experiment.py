@@ -55,6 +55,9 @@ def train_model_on_config(config=None):
             r2_train_scores = []
             r2_val_scores = []
             r2_test_scores = []
+            nodes_scores = []
+            depth_scores = []
+            expected_tests_scores = []
             times = []
             if config["n_iter"] == "auto":
                 x_train, x_val, x_test, y_train, y_val, y_test, categorical_indicator = generate_dataset(config, np.random.RandomState(0))
@@ -101,23 +104,42 @@ def train_model_on_config(config=None):
                 print(y_train.shape)
                 model = train_model(i, x_train, y_train, categorical_indicator, config, model_id)
                 if config["regression"]:
-                    try:
-                        r2_train, r2_val, r2_test = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
-                                                                   y_test, config, model_id, return_r2=True)
-                    except:
-                        print("R2 score cannot be computed")
-                        print(np.any(np.isnan(y_train)))
-                        r2_train, r2_val, r2_test = np.nan, np.nan, np.nan
+                    if config["model_type"] == "sklearn-tree":
+                        try:
+                            r2_train, r2_val, r2_test, nodes, depth, expected_tests = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
+                                                                    y_test, config, model_id, return_r2=True)
+                        except:
+                            print("R2 score cannot be computed")
+                            print(np.any(np.isnan(y_train)))
+                            r2_train, r2_val, r2_test, nodes, depth, expected_tests = np.nan, np.nan, np.nan, np.nan, np.nan, np.nan
+                    else:
+                        try:
+                            r2_train, r2_val, r2_test = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
+                                                                    y_test, config, model_id, return_r2=True)
+                        except:
+                            print("R2 score cannot be computed")
+                            print(np.any(np.isnan(y_train)))
+                            r2_train, r2_val, r2_test = np.nan, np.nan, np.nan
+                        nodes, depth, expected_tests = np.nan, np.nan, np.nan
+                        
                     r2_train_scores.append(r2_train)
                     r2_val_scores.append(r2_val)
                     r2_test_scores.append(r2_test)
-                else:
+
+
+                else:#Is classif
                     r2_train, r2_val, r2_test = np.nan, np.nan, np.nan
                     r2_train_scores.append(r2_train)
                     r2_val_scores.append(r2_val)
                     r2_test_scores.append(r2_test)
-                train_score, val_score, test_score = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
-                                                                    y_test, config, model_id)
+
+                    if config["model_type"] == "sklearn-tree":
+                        train_score, val_score, test_score, nodes, depth, expected_tests = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
+                                                                            y_test, config, model_id)
+
+                    else:
+                        train_score, val_score, test_score = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
+                                                                            y_test, config, model_id)
 
                 end_time = time.time()
                 print("Train score:", train_score)
@@ -148,6 +170,9 @@ def train_model_on_config(config=None):
                 train_scores.append(train_score)
                 val_scores.append(val_score)
                 test_scores.append(test_score)
+                nodes_scores.append(nodes)
+                depth_scores.append(depth)
+                expected_tests_scores.append(expected_tests)
 
             if "model__device" in config.keys():
                 if config["model__device"] == "cpu":
@@ -182,6 +207,15 @@ def train_model_on_config(config=None):
                            "mean_time": np.mean(times),
                            "std_time": np.std(times),
                            "times": times,
+                           "nodes_scores": nodes_scores,
+                           "depth_scores": depth_scores,
+                           "expected_tests_scores": expected_tests_scores,
+                           "mean_nodes_scores": np.mean(nodes_scores),
+                           "mean_depth_scores": np.mean(depth_scores),
+                           "mean_expected_tests_scores": np.mean(expected_tests_scores),
+                           "std_nodes_scores": np.std(nodes_scores),
+                           "std_depth_scores": np.std(depth_scores),
+                           "std_expected_tests_scores": np.std(expected_tests_scores),
                            "processor": processor}, commit=False)
             else:
                 wandb.log({"mean_train_score": train_score,
@@ -190,6 +224,9 @@ def train_model_on_config(config=None):
                            "mean_r2_train": r2_train,
                            "mean_r2_val": r2_val,
                            "mean_r2_test": r2_test,
+                           "mean_nodes_scores": nodes,
+                           "mean_depth_scores": depth,
+                           "mean_expected_tests_scores": expected_tests,
                            "mean_time": end_time - start_time,
                            "processor": processor}, commit=False)
 

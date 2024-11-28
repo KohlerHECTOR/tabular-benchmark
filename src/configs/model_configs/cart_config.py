@@ -2,7 +2,7 @@ import numpy as np
 
 config_random = {
     "model_type": {
-        "value": "sklearn"
+        "value": "sklearn-tree"
     },
     # Parameter space taken from Hyperopt-sklearn except when mentioned
     "model__max_depth": {
