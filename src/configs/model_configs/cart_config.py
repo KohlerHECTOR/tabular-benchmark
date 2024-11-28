@@ -43,7 +43,7 @@ config_random = {
     },
 
     "transformed_target": {
-        "values": [False, True]
+        "values": [False]
     },
     "use_gpu": {
         "value": False
@@ -65,9 +65,6 @@ config_default = {
 config_regression = dict(config_random, **{
     "model_name": {
         "value": "cart_r"
-    },
-    "model__loss": {
-        "values": ["squared_error", "absolute_error"],
     },
 })
 
