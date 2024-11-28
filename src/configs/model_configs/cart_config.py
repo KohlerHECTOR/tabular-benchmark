@@ -6,7 +6,7 @@ config_random = {
     },
     # Parameter space taken from Hyperopt-sklearn except when mentioned
     "model__max_depth": {
-        "values": ["None", 2, 3, 4],
+        "values": [10_000, 2, 3, 4],
         "probabilities": [0.7, 0.1, 0.1, 0.1]
     },
 
@@ -21,7 +21,7 @@ config_random = {
     },
 
     "model__max_leaf_nodes": {
-        "values": ["None", 5, 10, 15],
+        "values": [10_000, 5, 10, 15],
         "probabilities": [0.85, 0.05, 0.05, 0.05]
     },
 
@@ -38,7 +38,7 @@ config_random = {
         },
     
     "model__max_features": {
-        "values": ["sqrt", "log2", "None"],
+        "values": ["sqrt", "log2", 10_000],
         "probabilities": [0.5, 0.25, 0.25]
     },
 

@@ -76,7 +76,7 @@ def train_model_on_config(config=None):
                 if config["model_type"] == "skorch" or config["model_type"] == "tab_survey":
                     model_id = hash(
                         ".".join(list(config.keys())) + "." + str(iter))  # uniquely identify the run (useful for checkpointing)
-                elif config["model_type"] == "sklearn":
+                elif config["model_type"] == "sklearn" or config["model_type"] == "sklearn-tree":
                     model_id = 0 # not used
                 # if config["log_training"]: #FIXME
                 #    config["model__wandb_run"] = run
@@ -125,6 +125,9 @@ def train_model_on_config(config=None):
                     r2_train_scores.append(r2_train)
                     r2_val_scores.append(r2_val)
                     r2_test_scores.append(r2_test)
+                    train_score = r2_train
+                    test_score = r2_test
+                    val_score = r2_val
 
 
                 else:#Is classif
@@ -136,7 +139,6 @@ def train_model_on_config(config=None):
                     if config["model_type"] == "sklearn-tree":
                         train_score, val_score, test_score, nodes, depth, expected_tests = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
                                                                             y_test, config, model_id)
-
                     else:
                         train_score, val_score, test_score = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
                                                                             y_test, config, model_id)
@@ -224,9 +226,9 @@ def train_model_on_config(config=None):
                            "mean_r2_train": r2_train,
                            "mean_r2_val": r2_val,
                            "mean_r2_test": r2_test,
-                           "mean_nodes_scores": nodes,
-                           "mean_depth_scores": depth,
-                           "mean_expected_tests_scores": expected_tests,
+                        #    "mean_nodes_scores": nodes,
+                        #    "mean_depth_scores": depth,
+                        #    "mean_expected_tests_scores": expected_tests,
                            "mean_time": end_time - start_time,
                            "processor": processor}, commit=False)
 
