@@ -92,7 +92,7 @@ if __name__ == "__main__":
     # List of models as argument
     parser.add_argument("--models", nargs="+", type=str, default=[])
     # output file name
-    parser.add_argument("--output_file", type=str, default="all_benchmark_medium.csv")
+    parser.add_argument("--output_file", type=str, default="all_benchmark_medium")
     # Datasets
     parser.add_argument("--datasets", nargs="+", type=str, default=[])
     # Exclude datasets

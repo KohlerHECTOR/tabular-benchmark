@@ -226,9 +226,9 @@ def train_model_on_config(config=None):
                            "mean_r2_train": r2_train,
                            "mean_r2_val": r2_val,
                            "mean_r2_test": r2_test,
-                        #    "mean_nodes_scores": nodes,
-                        #    "mean_depth_scores": depth,
-                        #    "mean_expected_tests_scores": expected_tests,
+                           "mean_nodes_scores": nodes,
+                           "mean_depth_scores": depth,
+                           "mean_expected_tests_scores": expected_tests,
                            "mean_time": end_time - start_time,
                            "processor": processor}, commit=False)
 

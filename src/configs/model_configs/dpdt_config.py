@@ -6,7 +6,7 @@ config_random = {
     },
     # Parameter space taken from Hyperopt-sklearn except when mentioned
     "model__max_depth": {
-        "values": [10_000, 2, 3, 4],
+        "values": [10, 2, 3, 4],
         "probabilities": [0.7, 0.1, 0.1, 0.1]
     },
 
@@ -20,9 +20,9 @@ config_random = {
         "probabilities": [0.85, 0.05, 0.05, 0.05],
     },
 
-    "model__max_leaf_nodes": {
-        "values": [10_000, 5, 10, 15],
-        "probabilities": [0.85, 0.05, 0.05, 0.05]
+    "model__cart_nodes_list": {
+        "values": [(32,), (32, 16), (8,), (8,4,), (4,8,), (16,2,), (4,4,4,), (8,2,2,)],
+        "probabilities": [0.125]*8
     },
 
     "model__min_samples_leaf": {  # Not exactly like Hyperopt
@@ -64,24 +64,24 @@ config_default = {
 
 config_regression = dict(config_random, **{
     "model_name": {
-        "value": "cart_r"
+        "value": "dpdt_r"
     },
 })
 
 config_regression_default = dict(config_default, **{
     "model_name": {
-        "value": "cart_r"
+        "value": "dpdt_r"
     },
 })
 
 config_classif = dict(config_random, **{
     "model_name": {
-        "value": "cart_c"
+        "value": "dpdt_c"
     },
 })
 
 config_classif_default = dict(config_default, **{
     "model_name": {
-        "value": "cart_c"
+        "value": "dpdt_c"
     },
 })
