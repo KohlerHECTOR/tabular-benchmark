@@ -1,6 +1,6 @@
 source("analyses/plot_utils.R")
 
-benchmark <- read_csv("analyses/results/benchmark_total.csv")
+benchmark <- read_csv("analyses/results/combined_results.csv")
 
 ######################################################
 # Benchmark regression numerical medium
