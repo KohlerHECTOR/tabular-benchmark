@@ -6,7 +6,7 @@ config_random = {
     },
     # Parameter space taken from Hyperopt-sklearn except when mentioned
     "model__max_depth": {
-        "values": [10_000, 2, 3, 4],
+        "values": [10, 2, 3, 4],
         "probabilities": [0.7, 0.1, 0.1, 0.1]
     },
 

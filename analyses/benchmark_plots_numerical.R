@@ -9,7 +9,7 @@ print(unique(benchmark$model_name))
 
 df <- benchmark %>% 
   filter(benchmark == "numerical_regression_medium") %>% 
-  filter(model_name == "dpdt_r")
+  filter(model_name == "dpdt_r" | model_name == "cart_r")
 
 df <- rename(df)
 
@@ -36,7 +36,8 @@ ggsave("analyses/plots/random_search_regression_numerical.pdf", width=7, height=
 
 df <- benchmark %>% 
   filter(benchmark == "numerical_classification_medium") %>% 
-  filter(model_name == "dpdt_c")
+  filter(model_name == "dpdt_c" | model_name == "cart_c")
+
 
 df <- rename(df)
 checks(df)
