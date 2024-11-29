@@ -21,7 +21,7 @@ config_random = {
     },
 
     "model__max_leaf_nodes": {
-        "values": [10_000, 5, 10, 15],
+        "values": [2**10, 5, 10, 15],
         "probabilities": [0.85, 0.05, 0.05, 0.05]
     },
 
