@@ -4,10 +4,14 @@ benchmark <- read_csv("analyses/results/combined_results.csv")
 
 ######################################################
 # Benchmark regression numerical medium
+print("Unique model names in raw data:")
+print(unique(benchmark$model_name))
 
 df <- benchmark %>% 
   filter(benchmark == "numerical_regression_medium") %>% 
-  filter(model_name != "HistGradientBoostingTree")
+  filter(model_name == "dpdt_r")
+
+df <- rename(df)
 
 # checks
 checks(df)
@@ -31,8 +35,10 @@ ggsave("analyses/plots/random_search_regression_numerical.pdf", width=7, height=
 # Benchmark classif numerical medium
 
 df <- benchmark %>% 
-  filter(benchmark == "numerical_classification_medium")
+  filter(benchmark == "numerical_classification_medium") %>% 
+  filter(model_name == "dpdt_c")
 
+df <- rename(df)
 checks(df)
 
 plot_results_per_dataset(df, "accuracy", default_colscale = T)

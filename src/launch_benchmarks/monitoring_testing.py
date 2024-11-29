@@ -12,6 +12,72 @@ from configs.wandb_config import wandb_id
 import time
 
 
+
+DATASET_NAMES = {
+    # Regression datasets
+    361072: "cpu_act",
+    361073: "pol",
+    361074: "elevators",
+    361076: "wine_quality",
+    361077: "Ailerons",
+    361078: "houses",
+    361079: "house_16H",
+    361080: "diamonds",
+    361081: "Brazilian_houses",
+    361082: "Bike_Sharing_Demand",
+    361083: "nyc-taxi-green-dec-2016",
+    361084: "house_sales",
+    361085: "sulfur",
+    361086: "medical_charges", 
+    361087: "MiamiHousing2016",
+    361088: "superconduct",
+    361279: "yprop_4_1",
+    361280: "abalone",
+    361281: "delays_zurich_transport",
+
+    # Classification datasets
+    361055: "credit",
+    361060: "electricity",
+    361061: "covertype",
+    361062: "pol",
+    361063: "house_16H",
+    361065: "MagicTelescope",
+    361066: "bank-marketing",
+    361068: "MiniBooNE",
+    361069: "Higgs",
+    361070: "eye_movements",
+    361273: "Diabetes130US",
+    361274: "jannis",
+    361275: "default-of-credit-card-clients",
+    361276: "Bioresponse",
+    361277: "california",
+    361278: "heloc",
+    361093: "analcatdata_supreme",
+    361094: "visualizing_soil",
+    361096: "diamonds",
+    361097: "Mercedes_Benz_Greener_Manufacturing",
+    361098: "Brazilian_houses",
+    361099: "Bike_Sharing_Demand",
+    361101: "nyc-taxi-green-dec-2016",
+    361102: "house_sales",
+    361103: "particulate-matter-ukair-2017",
+    361104: "SGEMM_GPU_kernel_performance",
+    361287: "topo_2_1",
+    361288: "abalone",
+    361289: "seattlecrime6",
+    361291: "delays_zurich_transport",
+    361292: "Allstate_Claims_Severity",
+    361293: "Airlines_DepDelay_1M",
+    361294: "medical_charges",
+    361110: "electricity",
+    361111: "eye_movements",
+    361113: "covertype",
+    361282: "albert",
+    361283: "default-of-credit-card-clients",
+    361285: "road-safety",
+    361286: "compas-two-years"
+}
+
 def download_sweep(sweep, output_filename, row, max_run_per_sweep=20000):
     MAX_RUNS_PER_SWEEP = max_run_per_sweep
     runs_df = pd.DataFrame()
@@ -188,7 +254,7 @@ if args.monitor:
             #     if np.all([n_finished_runs_per_dataset[dataset] >= args.max_runs * n_run_per_dataset for dataset in
             #                 n_finished_runs_per_dataset]):
             #         if len(n_finished_runs_per_dataset) != row["n_datasets"]:
-            #             print("WARNING: some datasets are missing")
+            #             WARNING: some datasets are missing")
             #             print(f"Expected {row['n_datasets']} datasets, got {len(n_finished_runs_per_dataset)}")
             #             print("Stopping anyway")
             #         print("Stopping sweep")
@@ -212,6 +278,32 @@ if args.monitor:
     # Print nan mean_test_score per model
     print("Number of runs per model without mean_test_score (crashed):")
     print(df[df["mean_test_score"].isna()].groupby("model_name").size())
+
+    # Replace dataset names
+    for ds in df["data__keyword"].unique():
+        df['data__keyword'] = df['data__keyword'].replace(DATASET_NAMES)
+    
+    # Add benchmark column
+    def get_benchmark(sweep_name):
+        if not isinstance(sweep_name, str):
+            return "unknown"
+            
+        sweep_name = sweep_name.lower()
+        size = "small" if "small" in sweep_name else "medium" if "medium" in sweep_name else "large" if "large" in sweep_name else ""
+        
+        if "regression" in sweep_name and "numerical" in sweep_name:
+            return f"numerical_regression_{size}"
+        elif "classif" in sweep_name and "numerical" in sweep_name:
+            return f"numerical_classification_{size}"
+        elif "regression" in sweep_name and "categorical" in sweep_name:
+            return f"categorical_regression_{size}"
+        elif "classif" in sweep_name and "categorical" in sweep_name:
+            return f"categorical_classification_{size}"
+        else:
+            return "unknown"
+    
+    df["benchmark"] = df["sweep_name"].apply(get_benchmark)
+
     df.to_csv(args.output_filename)
     print("Results saved in {}".format(args.output_filename))
     print("Cleaning temporary files...")

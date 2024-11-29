@@ -1,36 +1,42 @@
 source("analyses/plot_utils.R")
 
-benchmark <- read_csv("analyses/results/benchmark_total.csv")
+benchmark <- read_csv("analyses/results/combined_results.csv")
 
-###################################
-# Benchmark classif categorical medium
+######################################################
+# Benchmark regression numerical medium
+# print("Unique model names in raw data:")
+# print(unique(benchmark$model_name))
 
-df <- benchmark %>% 
-  filter(benchmark == "categorical_classification_medium")
+# df <- benchmark %>% 
+#   filter(benchmark == "categorical_classification_medium") %>% 
+#   filter(model_name == "dpdt_c")
 
-# checks
-checks(df)
+# df <- rename(df)
 
-# Dataset by dataset
+# # checks
+# checks(df)
 
-plot_results_per_dataset(df, "accuracy", default_colscale = T)
+# # Dataset by dataset
+
+# plot_results_per_dataset(df, "accuracy", default_colscale = T)
 
 
-ggsave("analyses/plots/benchmark_categorical_classif_datasets.pdf", width=15, height=10, bg="white")
+# ggsave("analyses/plots/benchmark_categorical_classif_datasets.pdf", width=15, height=10, bg="white")
 
-# Aggregated
-plot_aggregated_results(df, y_inf=0.5, y_sup=0.95, score="accuracy", quantile=0.1, truncate_scores = F, text_size=8, theme_size=25, max_iter=400)
-ggsave("analyses/plots/benchmark_categorical_classif_poster.pdf", width=13.5, height=7, bg="white")
+# # Aggregated
+# plot_aggregated_results(df, y_inf=0.5, y_sup=0.95, score="accuracy", quantile=0.1, truncate_scores = F, text_size=8, theme_size=25, max_iter=400)
+# ggsave("analyses/plots/benchmark_categorical_classif_poster.pdf", width=13.5, height=7, bg="white")
 
-plot_aggregated_results(df, y_inf=0.5, y_sup=0.95, score="accuracy", max_iter=400)
-ggsave("analyses/plots/benchmark_categorical_classif.pdf", width=7, height=6, bg="white")
+# plot_aggregated_results(df, y_inf=0.5, y_sup=0.95, score="accuracy", max_iter=400)
+# ggsave("analyses/plots/benchmark_categorical_classif.pdf", width=7, height=6, bg="white")
 
 ##################################
 # Benchmark regression categorical medium
 
 df <- benchmark %>% 
-  filter(benchmark == "categorical_regression_medium")
-
+  filter(benchmark == "categorical_regression_medium") %>%
+  filter(model_name == "dpdt_r") 
+df <- rename(df)
 checks(df)
 
 
