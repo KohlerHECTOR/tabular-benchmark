@@ -7,7 +7,7 @@ gg_color_hue <- function(n) {
   hcl(h = hues, l = 65, c = 100)[1:n]
 }
 myColors <- gg_color_hue(10)
-names(myColors) <- c("GradientBoostingTree", "RandomForest", "HistGradientBoostingTree", "XGBoost", "FT Transformer", "Resnet", "MLP", "SAINT", "DPDT", "CART")
+names(myColors) <- c("GradientBoostingTree", "RandomForest", "CART", "HistGradientBoostingTree", "XGBoost", "FT Transformer", "Resnet", "MLP", "SAINT", "DPDT")
 colScale <- list(scale_colour_manual(name = "grp",values = myColors, limits=force),
                  scale_fill_manual(name = "grp",values = myColors, limits=force))
 
