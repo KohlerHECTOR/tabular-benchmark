@@ -22,7 +22,7 @@ config_random = {
         "probabilities": [1/7]*7
     },
 
-    "model__min_samples_leaf": {  # Not exactly like Hyperopt
+    "model__min_leaf_node_size": {  # Not exactly like Hyperopt
         "distribution": "q_log_uniform_values",
         "min": 1.5,
         "max": 50.5,
