@@ -195,7 +195,7 @@ random_search_no_variable <- function(df, n_shuffles, default_first=F, equalize_
 }
 
 random_search_no_variable_time <- function(df, n_shuffles, default_first=F){
- breaks <- c(10, 20, 30, 50, 100, 150, 200, 400, 500, 800, 1200, 2000, 3000, 4000, 5000, 7000, 10000, 15000, 20000, 30000, 40000, 50000, 100000)
+ breaks <- c(0, 10, 20, 30, 50, 100, 150, 200, 400, 500, 800, 1200, 2000, 3000, 4000, 5000, 7000, 10000, 15000, 20000, 30000, 40000, 50000, 100000)
   #breaks <- c(10, 20, 30, 50, 500, 1200, 3000, 5000, 10000, 20000)
   
   res <- tibble()
