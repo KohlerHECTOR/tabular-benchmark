@@ -134,7 +134,7 @@ def sklearn_evaluation_tree(fitted_model, x_train, x_val, x_test, y_train, y_val
     """
     if isinstance(fitted_model, DecisionTreeClassifier) or isinstance(fitted_model, DecisionTreeRegressor):
         y_hat_train = fitted_model.predict(x_train)
-        nodes, depth, expected_tests = fitted_model.tree_.max_depth, fitted_model.tree_.node_count, count_expected_test_cart(fitted_model, x_train)
+        depth, nodes, expected_tests = fitted_model.tree_.max_depth, fitted_model.tree_.node_count, count_expected_test_cart(fitted_model, x_train)
     
     elif isinstance(fitted_model, DPDTreeClassifier) or isinstance(fitted_model, DPDTreeRegressor):
         y_hat_train, expected_tests, depth, nodes  = fitted_model._predict_zeta(x_train, -1)

@@ -303,6 +303,11 @@ if args.monitor:
             return "unknown"
     
     df["benchmark"] = df["sweep_name"].apply(get_benchmark)
+    # Swap nodes and depth
+    df.loc[df['model_name'] == 'cart_c', ['nodes', 'depth']] = df.loc[df['model_name'] == 'cart_c', ['depth_scores', 'nodes_scores']].values
+
+    # Swap mean_depth_scores and mean_nodes_scores
+    df.loc[df['model_name'] == 'cart_c', ['mean_depth_scores', 'mean_nodes_scores']] = df.loc[df['model_name'] == 'cart_c', ['mean_nodes_scores', 'mean_depth_scores']].values
 
     df.to_csv(args.output_filename)
     print("Results saved in {}".format(args.output_filename))
