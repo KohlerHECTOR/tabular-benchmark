@@ -13,7 +13,7 @@ print(unique(benchmark$model_name))
 
 df <- benchmark %>% 
   filter(benchmark == "categorical_classification_medium") %>% 
-  filter(model_name == "dpdt_c" | model_name == "cart_c")
+  filter(model_name == "dpdt_c" | model_name == "cart_c" | model_name == "pystreed_c")
 
 
 df <- rename(df)

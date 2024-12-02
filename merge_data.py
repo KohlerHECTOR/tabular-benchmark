@@ -1,8 +1,8 @@
 import pandas as pd
 
 
-df1 = pd.read_csv('src/results.csv')
-df2 = pd.read_csv('analyses/results/benchmark_total.csv')
+df1 = pd.read_csv('src/results_streed.csv')
+df2 = pd.read_csv('analyses/results/combined_results_dpdtcart_depth5.csv')
 # Method 3: If you want all columns (filling with NaN where missing)
 combined_df = pd.concat([df1, df2], axis=0, ignore_index=True, join='outer')
 print("Shape of df1:", df2.shape)

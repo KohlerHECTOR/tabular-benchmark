@@ -20,6 +20,8 @@ rename <- function(df) {
              model_name == "dpdt_r" ~ "DPDT",
              model_name == "cart_c" ~ "CART",
              model_name == "cart_r" ~ "CART",
+             model_name == "pystreed_c" ~ "STreeD",
+             model_name == "pystreed_r" ~ "STreeD",
              model_name == "xgb_c" ~ "XGBoost",
              model_name == "xgb_r" ~ "XGBoost",
              model_name == "gbt_c" ~ "GradientBoostingTree",
