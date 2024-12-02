@@ -52,3 +52,4 @@ src/check_difficulty_old.py
 src/launch_benchmarks/results/*
 src/trash
 src/export_data.py
+Rplots.pdf
