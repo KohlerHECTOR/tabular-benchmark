@@ -1,6 +1,7 @@
 source("analyses/plot_utils.R")
 
-benchmark <- read_csv("analyses/results/combined_results_dpdtcart_depth5.csv")
+benchmark <- read_csv("src/results.csv") %>%
+  bind_rows(read_csv("src/results_streed.csv")) 
 
 ######################################################
 # Benchmark regression numerical medium
@@ -25,5 +26,5 @@ ggsave("analyses/plots/random_search_classif_numerical_datasets_depth5.pdf", wid
 
 # Aggregated
 
-plot_aggregated_results(df, y_inf=0.5, y_sup=0.95, score="accuracy", quantile=0.1, truncate_scores = F, max_iter = 100, equalize_n_iteration = F)
+plot_aggregated_results(df, y_inf=0.7, y_sup=0.95, score="accuracy", quantile=0.1, truncate_scores = F, max_iter = 100, equalize_n_iteration = F)
 ggsave("analyses/plots/random_search_classif_numerical_depth5.pdf", width=7, height=6, bg="white")
