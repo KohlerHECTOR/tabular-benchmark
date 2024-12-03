@@ -28,6 +28,7 @@ class AdaBoostDPDT(AdaBoostClassifier):
             algorithm=algorithm,
             random_state=random_state,
         )
+        self.config_base = config_base
 
 config_random = {
     "model_type": {
