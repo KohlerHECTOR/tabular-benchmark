@@ -142,6 +142,7 @@ def train_model_on_config(config=None):
                     else:
                         train_score, val_score, test_score = evaluate_model(model, x_train, y_train, x_val, y_val, x_test,
                                                                             y_test, config, model_id)
+                        nodes, depth, expected_tests = np.nan, np.nan, np.nan
 
                 end_time = time.time()
                 print("Train score:", train_score)
