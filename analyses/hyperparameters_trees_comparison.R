@@ -284,9 +284,6 @@ plot_aggregated_results_time(df, y_inf=0.85)
 ggsave("analyses/plots/hp_comparison_categorical_regression.pdf", width=7, height=6, bg="white")
 
 
-
-
-
 ######################################################
 # Benchmark regression numerical large
 df <- benchmark_categorical %>% 
