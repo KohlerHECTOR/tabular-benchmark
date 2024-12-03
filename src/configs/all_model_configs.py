@@ -71,6 +71,23 @@ total_config[keyword] = {
 model_keyword_dic[config_regression["model_name"]["value"]] = GradientBoostingRegressor
 model_keyword_dic[config_classif["model_name"]["value"]] = GradientBoostingClassifier
 
+from configs.model_configs.adaboost_cart_config import config_classif, config_classif_default, AdaBoostCART
+keyword = "boost_cart"
+total_config[keyword] = {
+        "classif": {"random": config_classif,
+                    "default": config_classif_default},
+}
+model_keyword_dic[config_classif["model_name"]["value"]] = AdaBoostCART
+
+
+from configs.model_configs.adaboost_dpdt_config import config_classif, config_classif_default, AdaBoostDPDT
+keyword = "boost_dpdt"
+total_config[keyword] = {
+        "classif": {"random": config_classif,
+                    "default": config_classif_default},
+}
+model_keyword_dic[config_classif["model_name"]["value"]] = AdaBoostDPDT
+
 
 from configs.model_configs.rf_config import config_classif, config_regression, config_classif_default, config_regression_default
 keyword = "rf"
