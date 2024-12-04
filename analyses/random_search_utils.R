@@ -6,8 +6,8 @@ gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
   hcl(h = hues, l = 65, c = 100)[1:n]
 }
-myColors <- gg_color_hue(10)
-names(myColors) <- c("GradientBoostingTree", "RandomForest", "CART", "HistGradientBoostingTree", "XGBoost", "FT Transformer", "Resnet", "MLP", "SAINT", "DPDT")
+myColors <- gg_color_hue(12)
+names(myColors) <- c("GradientBoostingTree", "RandomForest", "CART", "Boosted CART", "HistGradientBoostingTree", "XGBoost", "FT Transformer", "Resnet", "MLP", "SAINT", "DPDT", "Boosted DPDT")
 colScale <- list(scale_colour_manual(name = "grp",values = myColors, limits=force),
                  scale_fill_manual(name = "grp",values = myColors, limits=force))
 
@@ -20,6 +20,8 @@ rename <- function(df) {
              model_name == "dpdt_r" ~ "DPDT",
              model_name == "cart_c" ~ "CART",
              model_name == "cart_r" ~ "CART",
+             model_name == "adaboost_cart_c" ~ "Boosted CART",
+             model_name == "adaboost_dpdt_c" ~ "Boosted DPDT",
              model_name == "pystreed_c" ~ "STreeD",
              model_name == "pystreed_r" ~ "STreeD",
              model_name == "xgb_c" ~ "XGBoost",
