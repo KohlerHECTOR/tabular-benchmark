@@ -35,7 +35,7 @@ for index, r in always_fast_stats[always_fast_stats['count']>= 5].iterrows():
     print(res, ",")
 
 to_proba = []
-for index, r in always_fast_stats[always_fast_stats['count']>= 10].iterrows():
+for index, r in always_fast_stats[always_fast_stats['count']>= 5].iterrows():
     df_temp = df_copy.copy()
     for m in model_params:
         df_temp = df_temp[df_temp[m]==r[m]]

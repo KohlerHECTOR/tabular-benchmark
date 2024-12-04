@@ -3,7 +3,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 df = pd.read_csv("results.csv")
-df_dpdt = df[(df["model_name"] == "dpdt_c")]
+df_dpdt = df[(df["model_name"] == "cart_c")]
 # Get hyperparameter columns
 filter_col = [col for col in df_dpdt if col.startswith('model__') or col == "mean_test_score"]
 filter_col = [col for col in filter_col if not df_dpdt[col].isna().all()]
