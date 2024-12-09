@@ -126,7 +126,7 @@ for i, row in df.iterrows():
         # TODO modify launch_agent_gpu.sh
         SLURM_COMMAND = "sbatch --export=wandb_id={},project={},sweep_id={} launch_benchmarks/launch_agent_gpu.sh"
     else:
-        OAR_COMMAND = """oarsub "source /home/hkohler/public/tabular-benchmark/cool_env/bin/activate;wandb agent {}/{}/{}" -l walltime=12:10:30 -p "not cluster='graphite' AND not cluster='grimani' AND not cluster='gruss'" -q production"""
+        OAR_COMMAND = """oarsub "source /home/hkohler/public/tabular-benchmark/cool_env/bin/activate;wandb agent {}/{}/{}" -l walltime=23:10:30 -p "not cluster='graphite' AND not cluster='grimani' AND not cluster='gruss'" -q production"""
         # TODO modify launch_agent.sh
         SLURM_COMMAND = "sbatch --export=wandb_id={},project={},sweep_id={} launch_benchmarks/launch_agent.sh"
 
