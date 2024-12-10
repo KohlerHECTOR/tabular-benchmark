@@ -68,8 +68,8 @@ config_random = {
     },
 
     "model__cart_nodes_list": {
-        "values": [(32,), (8,4,), (4,8,), (16,2,)],
-        "probabilities": [0.25]*4
+        "values": [(32,), (8,4,), (4,8,), (16,2,), (4,4,2,)],
+        "probabilities": [1/5]*5
     },
 
     "model__min_samples_leaf": {  # Not exactly like Hyperopt
