@@ -33,6 +33,14 @@ class AdaBoostDPDT(AdaBoostClassifier):
             algorithm=algorithm,
             random_state=random_state,
         )
+        self.max_depth=max_depth, 
+        self.min_samples_split=min_samples_split, 
+        self.min_impurity_decrease=min_impurity_decrease, 
+        self.cart_nodes_list=cart_nodes_list, 
+        self.min_samples_leaf=min_samples_leaf, 
+        self.min_weight_fraction_leaf=min_weight_fraction_leaf,
+        self.max_features=max_features,
+
 
 config_random = {
     "model_type": {
