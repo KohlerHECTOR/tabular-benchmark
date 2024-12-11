@@ -6,6 +6,7 @@ source("analyses/plot_utils.R")
 # Numerical classif
 
 df <- read_csv("src/results_boosting.csv") %>%
+  bind_rows(read_csv("analyses/results/benchmark_total.csv")) %>%
   filter(benchmark == "numerical_classification_medium") %>%
   select(model_name, data__keyword, mean_val_score, mean_test_score, mean_time, hp) %>% 
   filter(!is.na(mean_test_score), !is.na(mean_val_score), !is.na(model_name)) %>% 
@@ -13,11 +14,12 @@ df <- read_csv("src/results_boosting.csv") %>%
 
 plot_aggregated_results_time(df, y_inf=0.6)
 
-ggsave("analyses/plots/benchmark_time_numerical_classif_boosting.pdf", width=7, height=6, bg="white")
+ggsave("analyses/plots/benchmark_time_numerical_classif_boosting_all.pdf", width=7, height=6, bg="white")
 
 
 
 df <- read_csv("src/results_boosting.csv")%>%
+  bind_rows(read_csv("analyses/results/benchmark_total.csv")) %>%
   filter(benchmark == "categorical_classification_medium") %>%
   select(model_name, data__keyword, mean_val_score, mean_test_score, mean_time, hp) %>% 
   filter(!is.na(mean_test_score), !is.na(mean_val_score), !is.na(model_name)) %>% 
@@ -25,4 +27,4 @@ df <- read_csv("src/results_boosting.csv")%>%
 
 plot_aggregated_results_time(df, y_inf=0.6)
 
-ggsave("analyses/plots/benchmark_time_categorical_classif_boosting.pdf", width=7, height=6, bg="white")
+ggsave("analyses/plots/benchmark_time_categorical_classif_boosting_all.pdf", width=7, height=6, bg="white")
