@@ -1,7 +1,8 @@
 source("analyses/plot_utils.R")
 
 benchmark <- read_csv("src/results_boosting.csv") %>%
-  bind_rows(read_csv("src/results_cart_dpdt.csv"))
+  bind_rows(read_csv("src/results_cart_dpdt.csv"))%>%
+  bind_rows(read_csv("src/results_boosting_dpdt_more_runs.csv"))
 
 
 ######################################################
