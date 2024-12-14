@@ -28,5 +28,5 @@ ggsave("analyses/plots/random_search_classif_numerical_datasets_boosting_w_weak.
 
 # Aggregated
 
-plot_aggregated_results(df, y_inf=0.7, y_sup=1, score="accuracy", quantile=0.1, truncate_scores = F, max_iter = 100, equalize_n_iteration = F)
+plot_aggregated_results(df, y_inf=0.65, y_sup=1, score="accuracy", quantile=0.1, truncate_scores = F, max_iter = 100, equalize_n_iteration = F)
 ggsave("analyses/plots/random_search_classif_numerical_boosting_w_weak.pdf", width=7, height=6, bg="white")

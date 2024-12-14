@@ -1,6 +1,6 @@
 source("analyses/plot_utils.R")
 
-benchmark <- read_csv("src/results.csv") %>%
+benchmark <- read_csv("src/results_cart_dpdt.csv") %>%
   bind_rows(read_csv("src/results_streed.csv")) 
 
 ######################################################
@@ -26,5 +26,5 @@ ggsave("analyses/plots/random_search_classif_categorical_datasets_depth5.pdf", w
 
 # Aggregated
 
-plot_aggregated_results(df, y_inf=0.65, y_sup=0.95, score="accuracy", quantile=0.1, truncate_scores = F, max_iter = 100, equalize_n_iteration = F)
+plot_aggregated_results(df, y_inf=0.75, y_sup=0.95, score="accuracy", quantile=0.1, truncate_scores = F, max_iter = 100, equalize_n_iteration = F)
 ggsave("analyses/plots/random_search_classif_categorical_depth5.pdf", width=7, height=6, bg="white")
